@@ -1,0 +1,71 @@
+.dg { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #233343; background: #f4f6f8; }
+.dg, .dg * { box-sizing: border-box; }
+
+.dg { height: 100dvh; min-height: 550px; display: grid; grid-template-rows: auto auto 1fr auto; }
+.dg header { padding: 22px 28px; background: white; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #dde4ea; gap: 20px; }
+.dg h1 { margin: 3px 0 0; font-size: 23px; letter-spacing: -.6px; font-weight: 650; }
+.dg .eyebrow { font-size: 10px; letter-spacing: 2px; font-weight: 700; color: #618477; }
+.dg .badge { border: 1px solid #dee7e3; border-radius: 20px; padding: 7px 12px; font-size: 12px; color: #47695b; }
+.dg .toolbar { padding: 12px 28px; background: #fcfdfd; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; border-bottom: 1px solid #dde4ea; }
+.dg button, .dg select, .dg input { font: inherit; font-size: 12px; border: 1px solid #d6dee5; border-radius: 6px; background: white; color: #233343; padding: 9px 12px; }
+.dg button { cursor: pointer; }
+.dg button:hover { background: #eef4f1; border-color: #9aacaa; }
+.dg button:disabled { opacity: .45; cursor: default; }
+.dg :focus-visible { outline: 3px solid #54a1d9; outline-offset: 2px; }
+.dg input { width: 240px; }
+.dg .toolbar label { display: flex; gap: 7px; align-items: center; font-size: 12px; }
+.dg .workspace { display: grid; grid-template-columns: minmax(0,1fr) 300px; grid-template-rows: minmax(0,1fr); min-height: 0; }
+.dg .canvas-wrap { position: relative; min-width: 0; min-height: 0; overflow: hidden; background-color: #f8fafb; background-image: radial-gradient(#dfe6eb 1px, transparent 1px); background-size: 20px 20px; }
+.dg .canvas { height: 100%; width: 100%; }
+.dg .legend { position: absolute; bottom: 18px; left: 20px; padding: 10px 14px; display: flex; gap: 16px; align-items: center; border: 1px solid #e1e7ec; background: #ffffffeb; border-radius: 7px; font-size: 11px; pointer-events: none; }
+.dg .legend span { display: flex; align-items: center; gap: 6px; }
+.dg .dot { width: 9px; height: 9px; background: #418473; border-radius: 2px; }
+.dg .dot.data { border-radius: 50%; background: #5c85b4; }
+.dg .dot.source { border-radius: 50%; background: #dcad61; }
+.dg aside { min-height: 0; background: white; border-left: 1px solid #dde4ea; padding: 23px 21px; overflow: auto; }
+.dg h2 { font-size: 15px; margin: 12px 0; overflow-wrap: anywhere; }
+.dg h3 { margin: 23px 0 9px; font-size: 10px; letter-spacing: 1.3px; color: #718192; text-transform: uppercase; }
+.dg p { font-size: 12px; line-height: 1.7; color: #667789; overflow-wrap: anywhere; }
+.dg .type { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #618477; }
+.dg .action { background: #285f50; color: white; border-color: #285f50; width: 100%; }
+.dg .action:hover { color: #233343; }
+.dg .list { display: grid; gap: 5px; }
+.dg .list button { text-align: left; width: 100%; overflow-wrap: anywhere; }
+.dg .list small { display: block; font-size: 10px; color: #768595; margin-top: 3px; }
+.dg .metadata { white-space: pre-wrap; overflow-wrap: anywhere; font: 11px/1.7 ui-monospace, monospace; color: #667789; }
+.dg footer { border-top: 1px solid #dde4ea; background: white; padding: 10px 28px; display: flex; justify-content: space-between; font-size: 11px; color: #718192; gap: 15px; }
+.dg .notice { position: absolute; top: 16px; left: 20px; right: 20px; background: #fff9e9; border: 1px solid #ecdbaf; border-radius: 7px; padding: 12px; font-size: 12px; }
+.dg a { color: #286a9f; font-size: 12px; }
+@media (max-width: 760px) { .dg header, .dg .toolbar { padding: 12px; } .dg .workspace { grid-template-columns: minmax(0,1fr) 235px; } .dg aside { padding: 15px; } .dg .badge { display: none; } .dg .legend { gap: 9px; left: 8px; font-size: 10px; } .dg footer { padding: 10px 12px; } }
+@media (max-width: 540px) { .dg { height: auto; min-height: 100dvh; } .dg .workspace { display: flex; flex-direction: column; } .dg .canvas-wrap { height: 60dvh; min-height: 360px; } .dg aside { border-left: 0; border-top: 1px solid #dde4ea; max-height: 400px; } .dg footer { flex-direction: column; } }
+
+.dg [hidden] { display: none !important; }
+.dg.dg-mkdocs { height: 78vh; min-height: 550px; }
+
+.dg aside > button { display: block; width: 100%; margin: 7px 0; text-align: left; }
+
+
+/* Compact controls leave the viewport to the graph. */
+.dg { grid-template-rows: auto minmax(0,1fr) auto; }
+.dg > header { display: none; }
+.dg .toolbar { padding: 5px 10px; gap: 6px; }
+.dg .toolbar input[type="search"] { width: 180px; }
+.dg .toolbar button, .dg .toolbar select, .dg .toolbar input, .dg .toolbar summary { padding: 5px 8px; }
+.dg .toolbar-more { position: relative; font-size: 12px; }
+.dg .toolbar-more > summary { cursor: pointer; border: 1px solid #d6dee5; border-radius: 6px; background: white; }
+.dg .more-panel { position: absolute; right: 0; top: 100%; z-index: 20; width: 220px; display: grid; gap: 9px; padding: 12px; background: white; border: 1px solid #d6dee5; box-shadow: 0 6px 18px #23334320; }
+.dg footer { padding: 4px 10px; }
+body.dg-graph-page > .container { width: 100%; max-width: none; padding: 0 8px; }
+body.dg-graph-page > .container > .row > .col-md-3 { display: none; }
+body.dg-graph-page > .container > .row > .col-md-9 { width: 100%; flex: 0 0 100%; max-width: 100%; }
+body.dg-graph-page .dg.dg-mkdocs { height: calc(100dvh - 76px); min-height: 360px; }
+body.dg-graph-page > footer { display: none; }
+
+/* Stack graph and readable, scrollable details on narrow documentation panels. */
+@media (max-width: 540px) {
+  body.dg-graph-page .dg.dg-mkdocs {
+    height: auto;
+    min-height: calc(100dvh - 76px);
+  }
+  .dg .canvas-wrap, .dg aside { flex: none; }
+}
