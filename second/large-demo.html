@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Large calculation · Interactive test</title>
+<link rel="stylesheet" href="assets/tree.css">
+<style>
+body{margin:0;padding:20px;background:#f2f5f3;color:#233343;font:14px/1.5 system-ui,sans-serif}main{max-width:1800px;margin:auto}h1{font-size:22px;margin:0 0 6px}.intro{color:#62776e;margin:0 0 16px}.demo-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}select,button{font:inherit;padding:8px 12px;border:1px solid #ccd8dd;border-radius:6px;background:white;color:inherit}button{cursor:pointer}a{color:#326b59}.hint{font-size:12px;color:#62776e;margin:10px 0}.counts{font-size:12px;color:#62776e}#status{margin:6px 0}#status:empty{display:none}
+</style>
+</head>
+<body><main>
+<h1>A larger calculation to explore</h1>
+<p class="intro">Shared dependencies, cross-unit branches, long-range inputs, alternative producers, and regional consolidation.</p>
+<div class="demo-controls">
+<label for="size">Calculation size</label>
+<select id="size"><option value="medium">Medium · 322 nodes</option><option value="large" selected>Large · 1,146 nodes</option><option value="huge">Extra large · 2,794 nodes</option></select>
+<button id="load" type="button">Load calculation</button><button id="overview" type="button">Collapse to final output</button>
+<span class="counts" id="counts"></span>
+</div>
+<div id="status" role="status"></div>
+<div id="calculation-tree"></div>
+<p class="hint">Start with <strong>Net portfolio result</strong> in the sidebar, or search for <strong>Consolidate region 1</strong>, <strong>Apply risk</strong>, or <strong>Energy prices</strong>. Select a search result to zoom in. Scroll over the graph to zoom; drag the background to pan. Nodes move vertically only.</p>
+<p class="hint">Use “Collapse to final output”, then select “Consolidate portfolio” and “Expand one level” to explore a layer at a time. The full graph is intentionally dense at fit-to-screen scale. Synthetic data; documentation pages are not included. <a href="demo.html">Return to the small demo</a>.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+<script src="assets/graph.js"></script><script src="assets/layout.js"></script><script src="assets/viewer.js"></script><script src="assets/app.js"></script><script src="assets/demo-calculation.js"></script>
+<script>
+(function () {
+  const sizes = { medium: { stages: 8, lanes: 16 }, large: { stages: 12, lanes: 40 }, huge: { stages: 20, lanes: 60 } };
+  const size = document.getElementById('size'), status = document.getElementById('status'), load = document.getElementById('load');
+  let data, viewer;
+  function mount(initialState) {
+    viewer = CalculationTree.mount({ container: '#calculation-tree', ...data, initialState });
+    window.demoViewer = viewer;
+  }
+  function loadCalculation() {
+    load.disabled = true; status.textContent = 'Loading calculation…';
+    setTimeout(() => {
+      try {
+        data = DemoCalculation.build(sizes[size.value]); mount();
+        document.getElementById('counts').textContent = `${data.dynamicNodes.all.length.toLocaleString()} nodes · ${data.dynamicEdges.all.length.toLocaleString()} connections · ${data.stages} stages · ${data.lanes} business units`;
+        status.textContent = '';
+      } catch (error) { status.textContent = 'Unable to load: ' + error.message; }
+      finally { load.disabled = false; }
+    }, 0);
+  }
+  load.addEventListener('click', loadCalculation);
+  document.getElementById('overview').addEventListener('click', () => {
+    if (!viewer) return;
+    try {
+      const saved = viewer.exportState();
+      saved.states[saved.profile].partial = { closed: ['portfolio-model'], exploration: null };
+      saved.selected = 'portfolio-model'; mount(saved); viewer.network.fit({ animation: { duration: 300 } });
+    } catch (error) { status.textContent = error.message; }
+  });
+  loadCalculation();
+})();
+</script></body></html>
